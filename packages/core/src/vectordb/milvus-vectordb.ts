@@ -16,6 +16,7 @@ export interface MilvusConfig {
     username?: string;
     password?: string;
     ssl?: boolean;
+    database?: string;
 }
 
 

@@ -20,6 +20,7 @@ async function main() {
         const useRestfulApi = false;
         const milvusAddress = envManager.get('MILVUS_ADDRESS') || 'localhost:19530';
         const milvusToken = envManager.get('MILVUS_TOKEN');
+        const milvusDb = envManager.get('MILVUS_DB');
         const splitterType = envManager.get('SPLITTER_TYPE')?.toLowerCase() || 'ast';
 
         console.log(`🔧 Using ${useRestfulApi ? 'RESTful API' : 'gRPC'} implementation`);
@@ -30,13 +31,15 @@ async function main() {
             // Use RESTful implementation (for environments without gRPC support)
             vectorDatabase = new MilvusRestfulVectorDatabase({
                 address: milvusAddress,
-                ...(milvusToken && { token: milvusToken })
+                ...(milvusToken && { token: milvusToken }),
+                ...(milvusDb && { database: milvusDb })
             });
         } else {
             // Use gRPC implementation (default, more efficient)
             vectorDatabase = new MilvusVectorDatabase({
                 address: milvusAddress,
-                ...(milvusToken && { token: milvusToken })
+                ...(milvusToken && { token: milvusToken }),
+                ...(milvusDb && { database: milvusDb })
             });
         }
 
@@ -121,6 +124,7 @@ async function main() {
             console.log('   - OPENAI_BASE_URL: Custom OpenAI API endpoint (optional)');
             console.log('   - MILVUS_ADDRESS: Milvus server address (default: localhost:19530)');
             console.log('   - MILVUS_TOKEN: Milvus authentication token (optional)');
+            console.log('   - MILVUS_DB: Milvus database name (optional, default: default)');
             console.log('   - SPLITTER_TYPE: Code splitter type - "ast" or "langchain" (default: ast)');
         }
 

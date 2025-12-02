@@ -16,6 +16,7 @@ export interface MilvusConfig {
     username?: string;
     password?: string;
     ssl?: boolean;
+    database?: string;
 }
 
 
@@ -39,13 +40,14 @@ export class MilvusVectorDatabase implements VectorDatabase {
 
     private async initializeClient(address: string): Promise<void> {
         const milvusConfig = this.config as MilvusConfig;
-        console.log('🔌 Connecting to vector database at: ', address);
+        console.log('🔌 Connecting to vector database at: ', address, ', database: ', milvusConfig.database);
         this.client = new MilvusClient({
             address: address,
             username: milvusConfig.username,
             password: milvusConfig.password,
             token: milvusConfig.token,
             ssl: milvusConfig.ssl || false,
+            database: milvusConfig.database || 'default',
         });
     }
 

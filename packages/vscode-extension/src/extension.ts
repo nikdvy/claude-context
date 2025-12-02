@@ -146,7 +146,8 @@ function createContextWithConfig(configManager: ConfigManager): Context {
         } else {
             vectorDatabase = new MilvusRestfulVectorDatabase({
                 address: envManager.get('MILVUS_ADDRESS') || 'http://localhost:19530',
-                token: envManager.get('MILVUS_TOKEN') || ''
+                token: envManager.get('MILVUS_TOKEN') || '',
+                database: envManager.get('MILVUS_DB') || 'default'
             });
             console.log('No Milvus configuration found, using default REST API configuration');
             contextConfig.vectorDatabase = vectorDatabase;

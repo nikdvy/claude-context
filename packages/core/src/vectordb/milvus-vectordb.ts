@@ -46,6 +46,7 @@ export class MilvusVectorDatabase implements VectorDatabase {
             username: milvusConfig.username,
             password: milvusConfig.password,
             token: milvusConfig.token,
+            database: milvusConfig.database,
             ssl: milvusConfig.ssl || false,
         });
     }
